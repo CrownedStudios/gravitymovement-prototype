@@ -1,0 +1,72 @@
+{
+  "name": "gravitymovement-prototype",
+  "tree": {
+    "$className": "DataModel",
+    "Players": {
+      "$properties": {
+        "RespawnTime": 5,
+        "CharacterAutoLoads": true
+      }
+    },
+    "ReplicatedFirst": {
+      "$path": "src/Context/ReplicatedFirst"
+    },
+    "ReplicatedStorage": {
+      "Assets": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true
+      },
+      "Shared": {
+        "$path": "src/Shared/Replicated"
+      },
+      "Packages": {
+        "$path": "Packages",
+        "$ignoreUnknownInstances": true
+      }
+    },
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/Server"
+      }
+    },
+    "ServerStorage": {
+      "ServerShared": {
+        "$path": "src/Shared/Server"
+      }
+    },
+    "StarterGui": {
+      "$path": "src/Context/StarterGui",
+      "$ignoreUnknownInstances": true,
+      "$properties": {
+        "ScreenOrientation": "LandscapeSensor"
+      }
+    },
+    "StarterPlayer": {
+      "StarterCharacterScripts": {
+        "$path": "src/Client/Character"
+      },
+      "StarterPlayerScripts": {
+        "Client": {
+          "$path": "src/Client/Player"
+        }
+      },
+      "$properties": {
+        "CameraMaxZoomDistance": 17,
+        "CameraMinZoomDistance": 17,
+        "HealthDisplayDistance": 0,
+        "NameDisplayDistance": 0,
+        "EnableMouseLockOption": false,
+        "UserEmotesEnabled": false
+      }
+    },
+    "Teams": {
+      "$className": "Teams",
+      "$path": "src/Context/Teams"
+    },
+    "SoundService": {
+      "$className": "SoundService",
+      "$path": "src/Context/SoundService",
+      "$ignoreUnknownInstances": true
+    }
+  }
+}
