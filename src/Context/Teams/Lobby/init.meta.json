@@ -1,0 +1,8 @@
+{
+  "className": "Team",
+  "properties": {
+    "TeamColor": {
+      "BrickColor": 1
+    }
+  }
+}

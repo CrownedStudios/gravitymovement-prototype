@@ -79,7 +79,7 @@ local function load(controller: ModuleScript): { any } | nil
 		loaded.loaded[controller.Name] = module
 
 		if module.Init then
-			loaded.inited[controller.Name] = false
+			loaded.initialized[controller.Name] = false
 		end
 		if module.Start then
 			loaded.started[controller.Name] = false
@@ -99,9 +99,10 @@ local function load(controller: ModuleScript): { any } | nil
 			)
 		)
 		player:Kick("[Bootstrapper (Client)] Game Load Failure, please rejoin!")
+		return nil
 	end
 end
-local function init(controllerData: { any }, controllerName: string)
+local function init(controllerData, controllerName: string)
 	if not controllerData.Init then
 		verbosePrint(("Cannot initialize '%s'"):format(controllerName))
 		return
@@ -119,7 +120,7 @@ local function init(controllerData: { any }, controllerName: string)
 		verbosePrint(
 			("Initialized '%s' in %s seconds"):format(controllerName, string.format("%.2f", endTick - startTick))
 		)
-		loaded.inited[controllerName] = true
+		loaded.initialized[controllerName] = true
 	else
 		verboseWarn(
 			("Failed to initialize '%s', it took %s seconds. Message: %s"):format(
@@ -131,7 +132,7 @@ local function init(controllerData: { any }, controllerName: string)
 		player:Kick("[Bootstrapper (Client)] Game Initialization Failure, please rejoin!")
 	end
 end
-local function start(controllerData: { any }, controllerName: string)
+local function start(controllerData, controllerName: string)
 	if not controllerData.Start then
 		verbosePrint(("Cannot start '%s'"):format(controllerName))
 		return
@@ -210,7 +211,7 @@ if asyncLoading then
 	until tablePopulated("loaded")
 
 	verboseWarn("Finished loading, beginning controller initialization")
-	for name, _ in pairs(loaded.inited) do
+	for name, _ in pairs(loaded.initialized) do
 		task.defer(init, loaded.loaded[name], name)
 	end
 
@@ -236,7 +237,7 @@ else
 	end
 
 	verboseWarn("Beginning controller initialization")
-	for name, _ in pairs(loaded.inited) do
+	for name, _ in pairs(loaded.initialized) do
 		init(loaded.loaded[name], name)
 	end
 

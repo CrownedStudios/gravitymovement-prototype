@@ -2,6 +2,11 @@
   "name": "gravitymovement-prototype",
   "tree": {
     "$className": "DataModel",
+    "Workspace": {
+      "$Components": {
+        "$className": "Folder"
+      }
+    },
     "Players": {
       "$properties": {
         "RespawnTime": 5,

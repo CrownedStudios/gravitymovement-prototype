@@ -77,7 +77,7 @@ local function load(service: ModuleScript): { any } | nil
 		loaded.loaded[service.Name] = module
 
 		if module.Init then
-			loaded.inited[service.Name] = false
+			loaded.initialized[service.Name] = false
 		end
 		if module.Start then
 			loaded.started[service.Name] = false
@@ -99,9 +99,10 @@ local function load(service: ModuleScript): { any } | nil
 		for _, plr in game:GetService("Players"):GetPlayers() do
 			plr:Kick("[Bootstrapper (Server)] Server Load Failure, please rejoin!")
 		end
+		return nil
 	end
 end
-local function init(serviceData: { any }, serviceName: string)
+local function init(serviceData, serviceName: string)
 	if not serviceData.Init then
 		verbosePrint(("Cannot initialize '%s'"):format(serviceName))
 		return
@@ -117,7 +118,7 @@ local function init(serviceData: { any }, serviceName: string)
 
 	if success then
 		verbosePrint(("Initialized '%s' in %s seconds"):format(serviceName, string.format("%.2f", endTick - startTick)))
-		loaded.inited[serviceName] = true
+		loaded.initialized[serviceName] = true
 	else
 		verboseWarn(
 			("Failed to initialize '%s', it took %s seconds. Message: %s"):format(
@@ -131,7 +132,7 @@ local function init(serviceData: { any }, serviceName: string)
 		end
 	end
 end
-local function start(serviceData: { any }, serviceName: string)
+local function start(serviceData, serviceName: string)
 	if not serviceData.Start then
 		verbosePrint(("Cannot start '%s'"):format(serviceName))
 		return
@@ -197,7 +198,7 @@ if asyncLoading then
 	until tablePopulated("loaded")
 
 	verboseWarn("Finished loading, beginning service initialization")
-	for name, _ in pairs(loaded.inited) do
+	for name, _ in pairs(loaded.initialized) do
 		task.defer(init, loaded.loaded[name], name)
 	end
 
@@ -223,7 +224,7 @@ else
 	end
 
 	verboseWarn("Beginning service initialization")
-	for name, _ in pairs(loaded.inited) do
+	for name, _ in pairs(loaded.initialized) do
 		init(loaded.loaded[name], name)
 	end
 
